@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    body {
+        background-color: springgreen;
+    }
+    #container {
+        display: flex;
+        margin: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    } 
+    button {
+        background-color: #0074d9;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+    } 
+    #list {
+        background-color: #0074d9;
+        color: aliceblue;
+        flex: 1; 
+        padding: 10px;
+    }
+    h2 {
+        font-size: 30px;
+        color: red;
+        text-align: center;
+    }
+    #search {
+        background-color: burlywood;
+        flex: 1; 
+        padding: 10px;
+    } 
+    #add {
+        background-color: black;
+        flex: 2; 
+        padding: 10px;
+        text-align: center;
+        color: #fff;
+    } 
+    h1{
+        color: red;
+        background-color: yellowgreen;
+        text-align: center;
+    }
+    #btn {
+        background-color: red;
+        color: white;
+        text-decoration: none;
+        border: 2px solid transparent;
+        font-weight: bold;
+        padding: 5px 20px;
+        border-radius: 30px;
+        transition: transform 0.2s;
+    }
+    #btn:hover {
+        transform: scale(1.2);
+    }
+    @media screen and  (max-width: 768px) {
+            #container {
+                flex-direction: column;
+                margin: 0;
+            }
+   
+            }
+</style>
+
+<head>
+    <title>OLMS</title>
+</head>
+<h1>OLMS</h1>
+
+<body>
+    <div id="container">
+        <div id="list">
+            <h2>Book List</h2>
+            <ol>
+                <li style="font-size: 15px;"> Hacking: The Art of Exploitation by Jon Erickson ISBN: 987-467932</li>
+                <li style="font-size: 15px;"> Introduction to the Theory of Computation by Michael ISBN: 987-232456</li>
+                <li style="font-size: 15px;"> Eloquent JavaScript: A Modern Introduction to Programming ISBN: 987-854984</li>
+            </ol>
+        </div>
+        <div id="add">
+            <h2>Add New Book</h2>
+            <label for="title">Title</label> <br>
+            <input type="text" id="title" required> <br>
+            <label for="author"> Author</label> <br>
+            <input type="text" id="author" required> <br>
+            <label for="isbn"> ISBN</label> <br>
+            <input type="text" id="isbn" required> <br> <br>
+            <button type="submit" id="btn" onclick="addBook()">Add Book</button> <br>
+        </div>
+        <div id="search">
+            <h2>Search For The Book</h2>
+            <input  type="text" id="search-input" placeholder="Enter the title or author" style="background-color: burlywood;"> <br> <br>
+            <button id="btn" onclick="searchBooks()">Search</button>
+        </div>
+    </div>
+
+    <script>
+        const books = [
+            { title: "Hacking: The Art of Exploitation", author: "Jon Erickson", isbn: "987-467932" },
+            { title: "Introduction to the Theory of Computation", author: "Michael", isbn: "987-232456" },
+            { title: "Eloquent JavaScript: A Modern Introduction to Programming", author: "", isbn: "987-854984" },
+        ];
+
+        function displayBookList() {
+            const bookList = document.querySelector("#list ol");
+            bookList.innerHTML = "";
+            for (const book of books) {
+                const li = document.createElement("li");
+                li.style.fontSize = "15px";
+                li.textContent = `${book.title} by ${book.author} ISBN: ${book.isbn}`;
+                bookList.appendChild(li);
+            }
+        }
+
+        function addBook() {
+            const title = document.getElementById("title").value;
+            const author = document.getElementById("author").value;
+            const isbn = document.getElementById("isbn").value;
+
+            if (books.some(book => book.isbn === isbn)) {
+                alert("This ISBN already exists in the library.");
+            } else {
+                books.push({ title, author, isbn });
+                displayBookList();
+            }
+        }
+
+        function searchBooks() {
+            const searchInput = document.getElementById("search-input").value.toLowerCase();
+            const bookList = document.querySelector("#list ol");
+            bookList.innerHTML = "";
+
+            for (const book of books) {
+                if (book.title.toLowerCase().includes(searchInput) || book.author.toLowerCase().includes(searchInput)) {
+                    const li = document.createElement("li");
+                    li.style.fontSize = "15px";
+                    li.textContent = `${book.title} by ${book.author} ISBN: ${book.isbn}`;
+                    bookList.appendChild(li);
+                }
+            }
+        }
+
+        displayBookList();
+    </script>
+</body>
+</html>
